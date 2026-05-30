@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Healthy Food Adventure</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Healthy vs Unhealthy Food Adventure</title>
 
 <style>
 
@@ -11,328 +12,529 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Verdana,sans-serif;
--webkit-tap-highlight-color:transparent;
+font-family:'Trebuchet MS',sans-serif;
 }
 
-body{
+html,body{
+width:100%;
+height:100%;
 overflow:hidden;
-height:100vh;
-background:linear-gradient(180deg,#fff7b2,#d8f3c8);
+background:linear-gradient(
+135deg,
+#F9E79F,
+#F5CBA7,
+#D7BDE2,
+#A9DFBF
+);
 }
 
 .screen{
-display:none;
-height:100vh;
+position:absolute;
 width:100%;
-padding:15px;
+height:100%;
+display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-text-align:center;
 }
 
-.active{
-display:flex;
+.hidden{
+display:none;
 }
 
-.logo{
-width:min(55vw,260px);
+/* Intro */
+
+#introScreen{
+background:linear-gradient(
+135deg,
+#FADBD8,
+#FCF3CF,
+#D6EAF8,
+#D5F5E3
+);
+}
+
+#logo{
+width:min(60vw,280px);
 animation:fadeLogo 2s infinite;
 }
 
 @keyframes fadeLogo{
-0%{opacity:.3}
-50%{opacity:1}
-100%{opacity:.3}
+0%{opacity:.3;}
+50%{opacity:1;}
+100%{opacity:.3;}
 }
 
-h1{
-color:#6a1b9a;
+/* Instructions */
+
+#instructionScreen{
+padding:20px;
+text-align:center;
+}
+
+.instructionBox{
+background:white;
+padding:20px;
+border-radius:25px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+max-width:90%;
+}
+
+.instructionBox h2{
+color:#8E44AD;
 margin-bottom:10px;
 }
 
-h2{
-color:#ff7043;
+/* Game */
+
+#gameScreen{
+padding:10px;
 }
 
-.food{
-width:min(45vw,220px);
-height:min(45vw,220px);
-object-fit:contain;
-animation:bounce 1.8s infinite;
+.topBar{
+position:absolute;
+top:10px;
+left:10px;
+right:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.score{
+font-size:24px;
+font-weight:bold;
+color:#6C3483;
+}
+
+.muteBtn{
+border:none;
+background:#F8C471;
+padding:12px 18px;
+border-radius:20px;
+font-size:18px;
 cursor:pointer;
 }
 
+.foodCard{
+width:95%;
+max-width:420px;
+background:white;
+padding:12px;
+border-radius:30px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.foodImage{
+width:min(55vw,240px);
+height:min(55vw,240px);
+object-fit:contain;
+cursor:pointer;
+animation:bounce 2s infinite;
+}
+
 @keyframes bounce{
+0%,100%{
+transform:translateY(0);
+}
 50%{
 transform:translateY(-8px);
 }
 }
 
-#foodName{
-margin-top:10px;
-font-size:24px;
-color:#444;
+.foodName{
+margin-top:8px;
+font-size:30px;
 font-weight:bold;
-}
-
-#scoreBox{
-position:absolute;
-right:15px;
-top:15px;
-background:white;
-padding:10px 15px;
-border-radius:20px;
-box-shadow:0 3px 8px rgba(0,0,0,.15);
-font-weight:bold;
-z-index:100;
-}
-
-#muteBtn{
-position:absolute;
-left:15px;
-top:15px;
-border:none;
-background:white;
-padding:10px 15px;
-border-radius:20px;
-font-size:20px;
-cursor:pointer;
-box-shadow:0 3px 8px rgba(0,0,0,.15);
-z-index:100;
-}
-
-.feedback{
-font-size:50px;
-margin-top:10px;
+color:#E67E22;
 }
 
 .message{
-font-size:24px;
+margin-top:12px;
+font-size:28px;
 font-weight:bold;
-color:#4caf50;
-margin-top:10px;
+min-height:40px;
 }
 
-.retry{
-display:none;
-margin-top:10px;
-padding:12px 20px;
-font-size:20px;
+.correct{
+color:#27AE60;
+}
+
+.wrong{
+color:#E74C3C;
+}
+
+.retryBtn{
+margin-top:15px;
+padding:14px 25px;
 border:none;
-border-radius:12px;
-background:#ff7043;
+border-radius:25px;
+font-size:22px;
+background:#F5B041;
 color:white;
+display:none;
+}
+
+.feedback{
+position:absolute;
+font-size:100px;
+pointer-events:none;
 }
 
 .confetti{
-width:min(70vw,250px);
-margin-bottom:15px;
+position:absolute;
+width:180px;
+display:none;
+}
+
+/* Completion */
+
+#completionScreen{
+text-align:center;
+padding:20px;
+}
+
+.completeBox{
+background:white;
+padding:20px;
+border-radius:25px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+width:90%;
+max-width:420px;
 }
 
 .stars{
-font-size:40px;
-margin:10px;
+font-size:42px;
+margin:10px 0;
+}
+
+#finishConfetti{
+width:180px;
+}
+
+@media(max-height:700px){
+
+.foodImage{
+width:180px;
+height:180px;
+}
+
+.foodName{
+font-size:24px;
+}
+
+.message{
+font-size:22px;
+}
+
 }
 
 </style>
 </head>
-
 <body>
 
-<div id="scoreBox">
+<!-- INTRO -->
+
+<div id="introScreen" class="screen">
+<img id="logo" src="innovine-logo.png" alt="logo">
+</div>
+
+<!-- INSTRUCTIONS -->
+
+<div id="instructionScreen" class="screen hidden">
+
+<div class="instructionBox">
+<h2>Healthy Food Adventure</h2>
+<p style="font-size:24px;">
+Tap only healthy foods.
+</p>
+</div>
+
+</div>
+
+<!-- GAME -->
+
+<div id="gameScreen" class="screen hidden">
+
+<div class="topBar">
+<button class="muteBtn" id="muteBtn">🔊</button>
+<div class="score">
 ⭐ <span id="score">0</span>
 </div>
-
-<button id="muteBtn">🔊</button>
-
-<div id="intro" class="screen active">
-<img src="innovine-logo.png" class="logo">
 </div>
 
-<div id="instructions" class="screen">
-<h1>Healthy Food Adventure</h1>
-<h2>Let's Learn Healthy Foods!</h2>
-</div>
+<img id="confetti" class="confetti" src="confetti.gif">
 
-<div id="game" class="screen">
+<div class="feedback" id="feedback"></div>
 
-<h1>Tap Healthy Food</h1>
+<div class="foodCard">
 
-<img id="foodImage" class="food">
+<img id="foodImage" class="foodImage">
 
-<div id="foodName"></div>
-
-<div id="feedback" class="feedback"></div>
+<div id="foodName" class="foodName"></div>
 
 <div id="message" class="message"></div>
 
-<button id="retryBtn" class="retry">
+<button id="retryBtn" class="retryBtn">
 Try Again
 </button>
 
 </div>
 
-<div id="complete" class="screen">
+</div>
 
-<img src="confetti.gif" class="confetti">
+<!-- COMPLETION -->
 
-<h1>Wonderful!</h1>
+<div id="completionScreen" class="screen hidden">
 
-<div class="stars">⭐⭐⭐</div>
+<div class="completeBox">
 
-<h2>Total Score</h2>
+<h1>🎉 Great Job! 🎉</h1>
 
-<h1 id="finalScore">0</h1>
+<img id="finishConfetti" src="confetti.gif">
+
+<h2 style="margin-top:10px;">
+Score:
+<span id="finalScore"></span>
+</h2>
+
+<div id="stars" class="stars"></div>
 
 </div>
 
-<audio id="bgMusic" loop>
-<source src="backgroundmusic.mp3">
-</audio>
+</div>
 
-<audio id="correctAudio">
-<source src="correct.mp3">
-</audio>
-
-<audio id="wrongAudio">
-<source src="wrong.mp3">
-</audio>
+<audio id="bgMusic" src="backgroundmusic.mp3" loop></audio>
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
 
 <script>
 
-let score=0;
-
-const healthy=[
-{img:"apple.png",name:"Apple",healthy:true},
-{img:"brocoli.png",name:"Broccoli",healthy:true},
-{img:"banana.png",name:"Banana",healthy:true},
-{img:"carrot.png",name:"Carrot",healthy:true},
-{img:"orange-juice.png",name:"Orange Juice",healthy:true}
+const healthyFoods = [
+{
+name:"Apple",
+image:"apple.png",
+healthy:true
+},
+{
+name:"Banana",
+image:"banana.png",
+healthy:true
+},
+{
+name:"Broccoli",
+image:"brocoli.png",
+healthy:true
+},
+{
+name:"Carrot",
+image:"carrot.png",
+healthy:true
+},
+{
+name:"Orange Juice",
+image:"orange-juice.png",
+healthy:true
+}
 ];
 
-const unhealthy=[
-{img:"donut.png",name:"Donut",healthy:false},
-{img:"candy.png",name:"Candy",healthy:false},
-{img:"soda.png",name:"Soda",healthy:false},
-{img:"burger.png",name:"Burger",healthy:false},
-{img:"chips.png",name:"Chips",healthy:false}
+const unhealthyFoods = [
+{
+name:"Burger",
+image:"burger.png",
+healthy:false
+},
+{
+name:"Chips",
+image:"chips.png",
+healthy:false
+},
+{
+name:"Candy",
+image:"candy.png",
+healthy:false
+},
+{
+name:"Donut",
+image:"donut.png",
+healthy:false
+},
+{
+name:"Soda",
+image:"soda.png",
+healthy:false
+}
 ];
 
-let sequence=[];
+/* Alternate Healthy-Unhealthy */
+
+let foods=[];
 
 for(let i=0;i<5;i++){
-sequence.push(healthy[i]);
-sequence.push(unhealthy[i]);
+
+foods.push(
+healthyFoods[
+Math.floor(Math.random()*healthyFoods.length)
+]
+);
+
+foods.push(
+unhealthyFoods[
+Math.floor(Math.random()*unhealthyFoods.length)
+]
+);
+
 }
 
-sequence.sort(()=>Math.random()-0.5);
+foods=foods.sort(()=>Math.random()-0.5);
 
-function show(id){
+let current=0;
+let score=0;
 
-document.querySelectorAll(".screen")
-.forEach(s=>s.classList.remove("active"));
+const introScreen=document.getElementById("introScreen");
+const instructionScreen=document.getElementById("instructionScreen");
+const gameScreen=document.getElementById("gameScreen");
+const completionScreen=document.getElementById("completionScreen");
 
-document.getElementById(id)
-.classList.add("active");
+const foodImage=document.getElementById("foodImage");
+const foodName=document.getElementById("foodName");
+const message=document.getElementById("message");
+const feedback=document.getElementById("feedback");
+const retryBtn=document.getElementById("retryBtn");
 
-}
+const bgMusic=document.getElementById("bgMusic");
+const correctSound=document.getElementById("correctSound");
+const wrongSound=document.getElementById("wrongSound");
+
+const confetti=document.getElementById("confetti");
+
+const muteBtn=document.getElementById("muteBtn");
+
+let muted=false;
+
+/* Intro */
+
+setTimeout(()=>{
+introScreen.classList.add("hidden");
+instructionScreen.classList.remove("hidden");
+speakInstructions();
+},5000);
+
+/* Speech */
 
 function speak(text,callback){
 
-const msg=new SpeechSynthesisUtterance(text);
+if(!('speechSynthesis' in window)){
+if(callback) callback();
+return;
+}
 
-msg.rate=0.75;
-msg.pitch=1;
+let speech=new SpeechSynthesisUtterance(text);
 
-msg.onend=()=>{
+speech.rate=0.8;
+speech.pitch=1;
+
+speech.onend=()=>{
 if(callback) callback();
 };
 
-speechSynthesis.speak(msg);
+speechSynthesis.speak(speech);
 
 }
 
-setTimeout(()=>{
-
-show("instructions");
+function speakInstructions(){
 
 speak(
-"Hello little friend. Let us learn healthy foods together.",
+"Hello little friend. Let us learn healthy foods together. Tap only healthy foods.",
 ()=>{
+startGame();
+});
+}
 
-document.getElementById("bgMusic")
-.play()
-.catch(()=>{});
+/* Music */
 
-setTimeout(startGame,1500);
+function startMusic(){
+
+bgMusic.volume=0.2;
+
+bgMusic.play().catch(()=>{});
 
 }
-);
 
-},5000);
-
-let index=0;
+/* Start Game */
 
 function startGame(){
 
-show("game");
-loadFood();
+instructionScreen.classList.add("hidden");
+gameScreen.classList.remove("hidden");
+
+startMusic();
+
+showFood();
 
 }
 
-function loadFood(){
+/* Display Food */
 
-feedback.innerHTML="";
-message.innerHTML="";
+function showFood(){
+
+message.textContent="";
+feedback.textContent="";
 retryBtn.style.display="none";
 
-if(index>=sequence.length){
+if(current>=foods.length){
 
 finishGame();
 return;
 }
 
-foodImage.src=sequence[index].img;
-foodName.innerHTML=sequence[index].name;
+let item=foods[current];
+
+foodImage.src=item.image;
+foodName.textContent=item.name;
 
 }
 
-foodImage.onclick=()=>{
+/* Tap Food */
 
-let item=sequence[index];
+foodImage.addEventListener("click",()=>{
+
+let item=foods[current];
 
 if(item.healthy){
 
-feedback.innerHTML="✅";
-
-message.innerHTML="Great Job!";
-
-correctAudio.currentTime=0;
-correctAudio.play();
-
 score++;
 
-document.getElementById("score")
-.innerHTML=score;
+document.getElementById("score").textContent=score;
+
+feedback.textContent="✅";
+feedback.style.color="green";
+
+message.textContent="Great Job!";
+message.className="message correct";
+
+correctSound.play();
+
+confetti.style.display="block";
 
 setTimeout(()=>{
+confetti.style.display="none";
+current++;
+showFood();
+},1500);
 
-index++;
-loadFood();
+}else{
 
-},1200);
+feedback.textContent="❌";
+feedback.style.color="red";
 
-}
-else{
+message.textContent="Oops!";
+message.className="message wrong";
 
-feedback.innerHTML="❌";
-
-message.innerHTML="Oops!";
-
-wrongAudio.currentTime=0;
-wrongAudio.play();
+wrongSound.play();
 
 speak("Oops! Try again.");
 
@@ -340,38 +542,59 @@ retryBtn.style.display="inline-block";
 
 }
 
-};
+});
 
-retryBtn.onclick=()=>{
+retryBtn.addEventListener("click",()=>{
+message.textContent="";
+feedback.textContent="";
+retryBtn.style.display="none";
+});
 
-feedback.innerHTML="";
-message.innerHTML="Tap Again";
-
-};
+/* Completion */
 
 function finishGame(){
 
-show("complete");
+gameScreen.classList.add("hidden");
+completionScreen.classList.remove("hidden");
 
-document.getElementById("finalScore")
-.innerHTML=score+" / "+sequence.length;
+document.getElementById("finalScore").textContent=
+score+" / "+foods.length;
+
+let stars="";
+
+if(score>=9){
+stars="⭐⭐⭐⭐⭐";
+}
+else if(score>=7){
+stars="⭐⭐⭐⭐";
+}
+else if(score>=5){
+stars="⭐⭐⭐";
+}
+else{
+stars="⭐⭐";
+}
+
+document.getElementById("stars").textContent=stars;
 
 speak(
-"Wonderful. Let us go to the next level."
+"Wonderful. You finished the healthy food adventure."
 );
 
 }
 
-muteBtn.onclick=()=>{
+/* Mute */
 
-let music=document.getElementById("bgMusic");
+muteBtn.addEventListener("click",()=>{
 
-music.muted=!music.muted;
+muted=!muted;
 
-muteBtn.innerHTML=
-music.muted ? "🔇" : "🔊";
+bgMusic.muted=muted;
 
-};
+muteBtn.textContent=
+muted ? "🔇" : "🔊";
+
+});
 
 </script>
 
