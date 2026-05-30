@@ -2,13 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Healthy vs Unhealthy Food Adventure</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -20,15 +17,10 @@ html,body{
 width:100%;
 height:100%;
 overflow:hidden;
-background:linear-gradient(
-180deg,
-#FFF8E7,
-#E8F8F5
-);
+background:linear-gradient(180deg,#FFF8E7,#E8F8F5);
 }
 
-/* ---------- SCREENS ---------- */
-
+/* SCREEN */
 .screen{
 position:absolute;
 width:100%;
@@ -39,34 +31,29 @@ align-items:center;
 flex-direction:column;
 }
 
-.hidden{
-display:none;
-}
+.hidden{display:none;}
 
-/* ---------- SPLASH ---------- */
-
+/* SPLASH */
 #logo{
-width:min(60vw,260px);
-animation:fadeLogo 2s infinite;
+width:220px;
+animation:fade 2s infinite;
 }
 
-@keyframes fadeLogo{
+@keyframes fade{
 0%{opacity:.3}
 50%{opacity:1}
 100%{opacity:.3}
 }
 
-/* ---------- GAME ---------- */
-
+/* TOP BAR */
 #instruction{
 position:absolute;
 top:10px;
-left:0;
 width:100%;
 text-align:center;
-font-size:24px;
+font-size:22px;
 font-weight:bold;
-color:#7D3C98;
+color:#6A1B9A;
 }
 
 #scoreBox{
@@ -75,56 +62,45 @@ top:10px;
 right:15px;
 font-size:22px;
 font-weight:bold;
-color:#1E8449;
+color:#1B5E20;
 }
 
+/* FOOD */
 #foodArea{
 position:absolute;
-top:80px;
+top:90px;
 width:100%;
 display:flex;
 justify-content:center;
-align-items:center;
-}
-
-.foodCard{
-text-align:center;
 }
 
 #foodImage{
-width:min(50vw,220px);
-height:min(50vw,220px);
+width:220px;
+height:220px;
 object-fit:contain;
-animation:dropFood .8s ease;
+animation:drop .7s ease;
 }
 
-@keyframes dropFood{
-from{
-transform:translateY(-200px);
-opacity:0;
-}
-to{
-transform:translateY(0);
-opacity:1;
-}
+@keyframes drop{
+from{transform:translateY(-200px);opacity:0}
+to{transform:translateY(0);opacity:1}
 }
 
 #foodName{
-font-size:30px;
+margin-top:10px;
+font-size:28px;
 font-weight:bold;
 color:#E67E22;
-margin-top:8px;
+text-align:center;
 }
 
-/* ---------- BASKETS ---------- */
-
+/* BASKETS */
 #basketContainer{
 position:absolute;
 bottom:20px;
 width:100%;
 display:flex;
 justify-content:space-between;
-align-items:flex-end;
 padding:0 20px;
 }
 
@@ -141,13 +117,12 @@ object-fit:contain;
 }
 
 .basketLabel{
-font-size:20px;
+font-size:18px;
 font-weight:bold;
-color:#5D4037;
+color:#4E342E;
 }
 
-/* ---------- FEEDBACK ---------- */
-
+/* FEEDBACK */
 .feedback{
 position:absolute;
 top:45%;
@@ -155,430 +130,213 @@ left:50%;
 transform:translate(-50%,-50%);
 font-size:120px;
 display:none;
-z-index:999;
+z-index:10;
 }
 
-#tick{
-color:#2ECC71;
-}
+#tick{color:#2ECC71;}
+#cross{color:#E74C3C;}
 
-#cross{
-color:#E74C3C;
+#message{
+position:absolute;
+top:60%;
+font-size:26px;
+font-weight:bold;
 }
 
 #tryAgain{
 display:none;
 position:absolute;
 top:68%;
-left:50%;
-transform:translateX(-50%);
-padding:14px 30px;
-font-size:24px;
+padding:12px 25px;
 border:none;
 border-radius:20px;
 background:#F5B041;
 color:white;
+font-size:20px;
 font-weight:bold;
 }
 
-/* ---------- END ---------- */
-
+/* END */
 #endScreen h1{
-color:#7D3C98;
-margin-bottom:20px;
+color:#6A1B9A;
 }
 
 #finalScore{
-font-size:32px;
+font-size:30px;
 font-weight:bold;
-color:#27AE60;
+color:#2E7D32;
 }
 
 #stars{
-font-size:50px;
-margin-top:20px;
+font-size:45px;
+margin-top:15px;
 }
-
-/* ---------- SMALL DEVICES ---------- */
-
-@media(max-height:700px){
-
-#foodImage{
-width:170px;
-height:170px;
-}
-
-.basketImg{
-width:95px;
-height:95px;
-}
-
-#foodName{
-font-size:24px;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
 <!-- SPLASH -->
-
-<div id="splashScreen" class="screen">
-
-<img
-id="logo"
-src="assets/innovine-logo.png"
-alt="Innovine Logo">
-
+<div id="splash" class="screen">
+<img id="logo" src="assets/innovine-logo.png">
 </div>
 
 <!-- GAME -->
+<div id="game" class="screen hidden">
 
-<div id="gameScreen"
-class="screen hidden">
+<div id="instruction">Click the correct basket</div>
 
-<div id="instruction">
-Click the correct basket
-</div>
-
-<div id="scoreBox">
-⭐ <span id="score">0</span>
-</div>
+<div id="scoreBox">⭐ <span id="score">0</span></div>
 
 <div id="foodArea">
-
-<div class="foodCard">
-
+<div>
 <img id="foodImage">
-
 <div id="foodName"></div>
-
+</div>
 </div>
 
-</div>
+<div id="tick" class="feedback">✅</div>
+<div id="cross" class="feedback">❌</div>
 
-<div id="tick" class="feedback">
-✅
-</div>
-
-<div id="cross" class="feedback">
-❌
-</div>
-
-<button id="tryAgain">
-Try Again
-</button>
+<div id="message"></div>
+<button id="tryAgain">Try Again</button>
 
 <div id="basketContainer">
 
-<!-- LEFT HEALTHY -->
+<div id="healthyBasket" class="basketBox">
+<img class="basketImg" src="assets/healthy-basket.png">
+<div class="basketLabel">Healthy</div>
+</div>
 
-<div id="healthyBasket"
-class="basketBox">
-
-<img
-src="assets/healthy-basket.png"
-class="basketImg">
-
-<div class="basketLabel">
-Healthy Food
+<div id="unhealthyBasket" class="basketBox">
+<img class="basketImg" src="assets/unhealthy-basket.png">
+<div class="basketLabel">Unhealthy</div>
 </div>
 
 </div>
-
-<!-- RIGHT UNHEALTHY -->
-
-<div id="unhealthyBasket"
-class="basketBox">
-
-<img
-src="assets/unhealthy-basket.png"
-class="basketImg">
-
-<div class="basketLabel">
-Unhealthy Food
-</div>
-
-</div>
-
-</div>
-
 </div>
 
 <!-- END -->
-
-<div id="endScreen"
-class="screen hidden">
-
+<div id="end" class="screen hidden">
 <h1>🎉 Great Job! 🎉</h1>
-
-<div>
-Score:
-<span id="finalScore"></span>
-</div>
-
+<div>Score: <span id="finalScore"></span></div>
 <div id="stars"></div>
-
 </div>
 
-<audio id="bgMusic"
-src="assets/backgroundmusic.mp3"
-loop></audio>
-
-<audio id="correctSound"
-src="assets/correct.mp3"></audio>
-
-<audio id="wrongSound"
-src="assets/wrong.mp3"></audio>
+<audio id="bgm" src="assets/backgroundmusic.mp3" loop></audio>
+<audio id="correct" src="assets/correct.mp3"></audio>
+<audio id="wrong" src="assets/wrong.mp3"></audio>
 
 <script>
 
-/* ---------- FOODS ---------- */
-
 const foods=[
+{name:"Apple",img:"assets/apple.png",h:true},
+{name:"Milk",img:"assets/milk.png",h:true},
+{name:"Banana",img:"assets/banana.png",h:true},
+{name:"Broccoli",img:"assets/brocoli.png",h:true},
+{name:"Carrot",img:"assets/carrot.png",h:true},
+{name:"Orange Juice",img:"assets/orange-juice.png",h:true},
 
-{name:"Apple",img:"assets/apple.png",healthy:true},
-{name:"Milk",img:"assets/milk.png",healthy:true},
-{name:"Broccoli",img:"assets/brocoli.png",healthy:true},
-{name:"Banana",img:"assets/banana.png",healthy:true},
-{name:"Carrot",img:"assets/carrot.png",healthy:true},
-{name:"Orange Juice",img:"assets/orange-juice.png",healthy:true},
-
-{name:"Donut",img:"assets/donut.png",healthy:false},
-{name:"Candy",img:"assets/candy.png",healthy:false},
-{name:"Soda",img:"assets/soda.png",healthy:false},
-{name:"Burger",img:"assets/burger.png",healthy:false},
-{name:"Chips",img:"assets/chips.png",healthy:false}
-
+{name:"Donut",img:"assets/donut.png",h:false},
+{name:"Candy",img:"assets/candy.png",h:false},
+{name:"Soda",img:"assets/soda.png",h:false},
+{name:"Burger",img:"assets/burger.png",h:false},
+{name:"Chips",img:"assets/chips.png",h:false}
 ];
 
-/* ---------- SHUFFLE ---------- */
-
-let gameFoods=[...foods]
-.sort(()=>Math.random()-0.5);
-
-let current=0;
+let gameFoods=foods.sort(()=>Math.random()-0.5);
+let i=0;
 let score=0;
 
-/* ---------- SPEECH ---------- */
-
-function speak(text,callback){
-
-if(!window.speechSynthesis){
-
-if(callback) callback();
-
-return;
-}
-
-speechSynthesis.cancel();
-
-const msg=
-new SpeechSynthesisUtterance(text);
-
-msg.rate=0.8;
-msg.pitch=1;
-
-msg.onend=()=>{
-
-if(callback) callback();
-
-};
-
+/* SPEECH */
+function speak(text,cb){
+let msg=new SpeechSynthesisUtterance(text);
+msg.rate=0.85;
+msg.onend=cb;
 speechSynthesis.speak(msg);
-
 }
 
-/* ---------- SPLASH ---------- */
-
+/* START */
 setTimeout(()=>{
-
-document
-.getElementById("splashScreen")
-.classList.add("hidden");
-
-document
-.getElementById("gameScreen")
-.classList.remove("hidden");
+document.getElementById("splash").classList.add("hidden");
+document.getElementById("game").classList.remove("hidden");
 
 speak(
-"Hello little friend. Look at the food. Click the correct basket.",
+"Hello little friend. Click the correct basket for each food.",
 startGame
 );
 
 },5000);
 
-/* ---------- START ---------- */
-
 function startGame(){
-
-const bg=
-document.getElementById("bgMusic");
-
-bg.volume=.25;
-
-bg.play().catch(()=>{});
-
+document.getElementById("bgm").volume=0.3;
+document.getElementById("bgm").play();
 showFood();
-
 }
-
-/* ---------- SHOW FOOD ---------- */
 
 function showFood(){
+if(i>=gameFoods.length) return endGame();
 
-if(current>=gameFoods.length){
-
-finishGame();
-
-return;
+let f=gameFoods[i];
+foodImage.src=f.img;
+foodName.textContent=f.name;
+message.textContent="";
 }
 
-const item=
-gameFoods[current];
+function check(ans){
+let f=gameFoods[i];
 
-document
-.getElementById("foodImage")
-.src=item.img;
-
-document
-.getElementById("foodName")
-.textContent=item.name;
-
-}
-
-/* ---------- CHECK ---------- */
-
-function checkAnswer(choice){
-
-const item=
-gameFoods[current];
-
-if(choice===item.healthy){
-
-document
-.getElementById("tick")
-.style.display="block";
-
-const correct=
-document.getElementById("correctSound");
+if(ans===f.h){
 
 correct.currentTime=0;
 correct.play();
 
-score++;
+tick.style.display="block";
 
-document
-.getElementById("score")
-.textContent=score;
+score++;
+document.getElementById("score").textContent=score;
 
 setTimeout(()=>{
-
-document
-.getElementById("tick")
-.style.display="none";
-
-current++;
-
+tick.style.display="none";
+i++;
 showFood();
+},1000);
 
-},1200);
-
-}
-
-else{
-
-document
-.getElementById("cross")
-.style.display="block";
-
-document
-.getElementById("tryAgain")
-.style.display="block";
-
-const wrong=
-document.getElementById("wrongSound");
+}else{
 
 wrong.currentTime=0;
 wrong.play();
 
-speak("Try Again");
+cross.style.display="block";
+message.textContent="Try Again";
+tryAgain.style.display="block";
 
-}
-
-}
-
-/* ---------- EVENTS ---------- */
-
-document
-.getElementById("healthyBasket")
-.onclick=()=>{
-
-checkAnswer(true);
-
-};
-
-document
-.getElementById("unhealthyBasket")
-.onclick=()=>{
-
-checkAnswer(false);
-
-};
-
-document
-.getElementById("tryAgain")
-.onclick=()=>{
-
-document
-.getElementById("cross")
-.style.display="none";
-
-document
-.getElementById("tryAgain")
-.style.display="none";
-
-};
-
-/* ---------- END ---------- */
-
-function finishGame(){
-
-document
-.getElementById("gameScreen")
-.classList.add("hidden");
-
-document
-.getElementById("endScreen")
-.classList.remove("hidden");
-
-document
-.getElementById("finalScore")
-.textContent=
-score+" / "+foods.length;
-
-let stars="";
-
-if(score===11)
-stars="⭐⭐⭐⭐⭐";
-else if(score>=9)
-stars="⭐⭐⭐⭐";
-else if(score>=7)
-stars="⭐⭐⭐";
-else
-stars="⭐⭐";
-
-document
-.getElementById("stars")
-.textContent=stars;
-
-speak(
-"Wonderful. You finished the healthy food adventure."
+speechSynthesis.speak(
+new SpeechSynthesisUtterance("Try again")
 );
+}
+}
 
+/* EVENTS */
+healthyBasket.onclick=()=>check(true);
+unhealthyBasket.onclick=()=>check(false);
+
+tryAgain.onclick=()=>{
+cross.style.display="none";
+tryAgain.style.display="none";
+message.textContent="";
+};
+
+function endGame(){
+game.style.display="none";
+end.style.display="flex";
+
+finalScore.textContent=score+" / "+gameFoods.length;
+
+if(score>=10) stars.textContent="⭐⭐⭐⭐⭐";
+else if(score>=8) stars.textContent="⭐⭐⭐⭐";
+else if(score>=6) stars.textContent="⭐⭐⭐";
+else stars.textContent="⭐⭐";
 }
 
 </script>
