@@ -6,6 +6,7 @@
 <title>Healthy vs Unhealthy Food Adventure</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -20,7 +21,6 @@ overflow:hidden;
 background:linear-gradient(180deg,#FFF8E7,#E8F8F5);
 }
 
-/* SCREEN */
 .screen{
 position:absolute;
 width:100%;
@@ -45,7 +45,7 @@ animation:fade 2s infinite;
 100%{opacity:.3}
 }
 
-/* TOP BAR */
+/* TOP */
 #instruction{
 position:absolute;
 top:10px;
@@ -78,12 +78,6 @@ justify-content:center;
 width:220px;
 height:220px;
 object-fit:contain;
-animation:drop .7s ease;
-}
-
-@keyframes drop{
-from{transform:translateY(-200px);opacity:0}
-to{transform:translateY(0);opacity:1}
 }
 
 #foodName{
@@ -122,7 +116,7 @@ font-weight:bold;
 color:#4E342E;
 }
 
-/* FEEDBACK */
+/* FEEDBACK (FIXED) */
 .feedback{
 position:absolute;
 top:45%;
@@ -130,7 +124,8 @@ left:50%;
 transform:translate(-50%,-50%);
 font-size:120px;
 display:none;
-z-index:10;
+z-index:999;
+pointer-events:none;
 }
 
 #tick{color:#2ECC71;}
@@ -157,20 +152,10 @@ font-weight:bold;
 }
 
 /* END */
-#endScreen h1{
-color:#6A1B9A;
-}
+#endScreen h1{color:#6A1B9A;}
+#finalScore{font-size:30px;font-weight:bold;color:#2E7D32;}
+#stars{font-size:45px;margin-top:15px;}
 
-#finalScore{
-font-size:30px;
-font-weight:bold;
-color:#2E7D32;
-}
-
-#stars{
-font-size:45px;
-margin-top:15px;
-}
 </style>
 </head>
 
@@ -236,7 +221,6 @@ const foods=[
 {name:"Broccoli",img:"assets/brocoli.png",h:true},
 {name:"Carrot",img:"assets/carrot.png",h:true},
 {name:"Orange Juice",img:"assets/orange-juice.png",h:true},
-
 {name:"Donut",img:"assets/donut.png",h:false},
 {name:"Candy",img:"assets/candy.png",h:false},
 {name:"Soda",img:"assets/soda.png",h:false},
@@ -248,43 +232,50 @@ let gameFoods=foods.sort(()=>Math.random()-0.5);
 let i=0;
 let score=0;
 
-/* SPEECH */
-function speak(text,cb){
-let msg=new SpeechSynthesisUtterance(text);
+function speak(t,cb){
+let msg=new SpeechSynthesisUtterance(t);
 msg.rate=0.85;
 msg.onend=cb;
 speechSynthesis.speak(msg);
 }
 
-/* START */
 setTimeout(()=>{
-document.getElementById("splash").classList.add("hidden");
-document.getElementById("game").classList.remove("hidden");
+splash.classList.add("hidden");
+game.classList.remove("hidden");
 
-speak(
-"Hello little friend. Click the correct basket for each food.",
-startGame
-);
+speak("Hello little friend. Choose the correct basket.",startGame);
 
 },5000);
 
 function startGame(){
-document.getElementById("bgm").volume=0.3;
-document.getElementById("bgm").play();
+bgm.volume=0.3;
+bgm.play().catch(()=>{});
 showFood();
 }
 
+/* FIX APPLIED HERE */
+function resetFeedback(){
+tick.style.display="none";
+cross.style.display="none";
+message.textContent="";
+tryAgain.style.display="none";
+}
+
 function showFood(){
-if(i>=gameFoods.length) return endGame();
+if(i>=gameFoods.length)return endGame();
+
+resetFeedback();
 
 let f=gameFoods[i];
 foodImage.src=f.img;
 foodName.textContent=f.name;
-message.textContent="";
 }
 
 function check(ans){
+
 let f=gameFoods[i];
+
+resetFeedback();
 
 if(ans===f.h){
 
@@ -292,9 +283,11 @@ correct.currentTime=0;
 correct.play();
 
 tick.style.display="block";
+message.textContent="Great Job!";
+message.style.color="#2ECC71";
 
 score++;
-document.getElementById("score").textContent=score;
+scoreBox.innerHTML="⭐ "+score;
 
 setTimeout(()=>{
 tick.style.display="none";
@@ -309,15 +302,18 @@ wrong.play();
 
 cross.style.display="block";
 message.textContent="Try Again";
+message.style.color="#E74C3C";
+
 tryAgain.style.display="block";
 
 speechSynthesis.speak(
 new SpeechSynthesisUtterance("Try again")
 );
-}
+
 }
 
-/* EVENTS */
+}
+
 healthyBasket.onclick=()=>check(true);
 unhealthyBasket.onclick=()=>check(false);
 
@@ -333,9 +329,9 @@ end.style.display="flex";
 
 finalScore.textContent=score+" / "+gameFoods.length;
 
-if(score>=10) stars.textContent="⭐⭐⭐⭐⭐";
-else if(score>=8) stars.textContent="⭐⭐⭐⭐";
-else if(score>=6) stars.textContent="⭐⭐⭐";
+if(score>=10)stars.textContent="⭐⭐⭐⭐⭐";
+else if(score>=8)stars.textContent="⭐⭐⭐⭐";
+else if(score>=6)stars.textContent="⭐⭐⭐";
 else stars.textContent="⭐⭐";
 }
 
