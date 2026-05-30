@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
-<title>Healthy vs Unhealthy Food</title>
+<title>Healthy vs Unhealthy Food Adventure</title>
 
 <style>
 
@@ -19,8 +20,14 @@ html,body{
 width:100%;
 height:100%;
 overflow:hidden;
-background:linear-gradient(180deg,#FFF8E7,#D6F5D6);
+background:linear-gradient(
+180deg,
+#FFF8E7,
+#E8F8F5
+);
 }
+
+/* ---------- SCREENS ---------- */
 
 .screen{
 position:absolute;
@@ -36,29 +43,30 @@ flex-direction:column;
 display:none;
 }
 
-/* Splash */
+/* ---------- SPLASH ---------- */
 
 #logo{
-width:220px;
-animation:fade 2s infinite;
+width:min(60vw,260px);
+animation:fadeLogo 2s infinite;
 }
 
-@keyframes fade{
+@keyframes fadeLogo{
 0%{opacity:.3}
 50%{opacity:1}
 100%{opacity:.3}
 }
 
-/* Game */
+/* ---------- GAME ---------- */
 
 #instruction{
 position:absolute;
 top:10px;
+left:0;
 width:100%;
 text-align:center;
 font-size:24px;
 font-weight:bold;
-color:#6A1B9A;
+color:#7D3C98;
 }
 
 #scoreBox{
@@ -67,117 +75,173 @@ top:10px;
 right:15px;
 font-size:22px;
 font-weight:bold;
-color:#2E7D32;
+color:#1E8449;
 }
 
 #foodArea{
 position:absolute;
-top:90px;
+top:80px;
 width:100%;
 display:flex;
 justify-content:center;
+align-items:center;
+}
+
+.foodCard{
+text-align:center;
 }
 
 #foodImage{
-width:220px;
-height:220px;
+width:min(50vw,220px);
+height:min(50vw,220px);
 object-fit:contain;
-animation:drop 0.8s ease;
+animation:dropFood .8s ease;
 }
 
-@keyframes drop{
+@keyframes dropFood{
 from{
-transform:translateY(-250px);
+transform:translateY(-200px);
+opacity:0;
 }
 to{
 transform:translateY(0);
+opacity:1;
 }
 }
 
 #foodName{
-text-align:center;
 font-size:30px;
 font-weight:bold;
-margin-top:5px;
-color:#F57C00;
+color:#E67E22;
+margin-top:8px;
 }
 
-.bag{
+/* ---------- BASKETS ---------- */
+
+#basketContainer{
 position:absolute;
-bottom:25px;
+bottom:20px;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:flex-end;
+padding:0 20px;
+}
+
+.basketBox{
 width:140px;
+text-align:center;
 cursor:pointer;
 }
 
-#unhealthyBag{
-left:15px;
+.basketImg{
+width:120px;
+height:120px;
+object-fit:contain;
 }
 
-#healthyBag{
-right:15px;
-}
-
-.label{
-text-align:center;
-font-size:22px;
+.basketLabel{
+font-size:20px;
 font-weight:bold;
+color:#5D4037;
 }
+
+/* ---------- FEEDBACK ---------- */
 
 .feedback{
 position:absolute;
+top:45%;
+left:50%;
+transform:translate(-50%,-50%);
 font-size:120px;
 display:none;
+z-index:999;
 }
 
 #tick{
-color:green;
+color:#2ECC71;
 }
 
 #cross{
-color:red;
+color:#E74C3C;
 }
 
 #tryAgain{
 display:none;
 position:absolute;
-top:70%;
-padding:15px 30px;
-font-size:22px;
+top:68%;
+left:50%;
+transform:translateX(-50%);
+padding:14px 30px;
+font-size:24px;
 border:none;
 border-radius:20px;
-background:#FFB74D;
+background:#F5B041;
+color:white;
+font-weight:bold;
 }
 
-#confetti{
-display:none;
-position:absolute;
-width:180px;
-top:30%;
+/* ---------- END ---------- */
+
+#endScreen h1{
+color:#7D3C98;
+margin-bottom:20px;
 }
 
-/* End */
+#finalScore{
+font-size:32px;
+font-weight:bold;
+color:#27AE60;
+}
 
 #stars{
 font-size:50px;
-margin-top:15px;
+margin-top:20px;
+}
+
+/* ---------- SMALL DEVICES ---------- */
+
+@media(max-height:700px){
+
+#foodImage{
+width:170px;
+height:170px;
+}
+
+.basketImg{
+width:95px;
+height:95px;
+}
+
+#foodName{
+font-size:24px;
+}
+
 }
 
 </style>
 </head>
+
 <body>
 
-<!-- Splash -->
+<!-- SPLASH -->
 
-<div id="splash" class="screen">
-<img src="assets/innovine-logo.png" id="logo">
+<div id="splashScreen" class="screen">
+
+<img
+id="logo"
+src="assets/innovine-logo.png"
+alt="Innovine Logo">
+
 </div>
 
-<!-- Game -->
+<!-- GAME -->
 
-<div id="game" class="screen hidden">
+<div id="gameScreen"
+class="screen hidden">
 
 <div id="instruction">
-Click the correct bag
+Click the correct basket
 </div>
 
 <div id="scoreBox">
@@ -186,68 +250,93 @@ Click the correct bag
 
 <div id="foodArea">
 
-<div>
+<div class="foodCard">
+
 <img id="foodImage">
+
 <div id="foodName"></div>
-</div>
 
 </div>
 
-<div id="tick" class="feedback">✅</div>
-<div id="cross" class="feedback">❌</div>
+</div>
 
-<img src="assets/confetti.gif" id="confetti">
+<div id="tick" class="feedback">
+✅
+</div>
+
+<div id="cross" class="feedback">
+❌
+</div>
 
 <button id="tryAgain">
 Try Again
 </button>
 
-<div id="unhealthyBag">
+<div id="basketContainer">
 
-<img src="assets/unhealthy-bag.png"
-class="bag">
+<!-- LEFT HEALTHY -->
 
-<div class="label">
-Unhealthy
+<div id="healthyBasket"
+class="basketBox">
+
+<img
+src="assets/healthy-basket.png"
+class="basketImg">
+
+<div class="basketLabel">
+Healthy Food
 </div>
 
 </div>
 
-<div id="healthyBag">
+<!-- RIGHT UNHEALTHY -->
 
-<img src="assets/healthy-bag.png"
-class="bag">
+<div id="unhealthyBasket"
+class="basketBox">
 
-<div class="label">
-Healthy
+<img
+src="assets/unhealthy-basket.png"
+class="basketImg">
+
+<div class="basketLabel">
+Unhealthy Food
 </div>
 
 </div>
 
 </div>
 
-<!-- End Screen -->
+</div>
 
-<div id="endScreen" class="screen hidden">
+<!-- END -->
+
+<div id="endScreen"
+class="screen hidden">
 
 <h1>🎉 Great Job! 🎉</h1>
 
-<h2>
+<div>
 Score:
 <span id="finalScore"></span>
-</h2>
+</div>
 
 <div id="stars"></div>
 
-<img src="assets/confetti.gif" width="200">
-
 </div>
 
-<audio id="bgm" src="assets/backgroundmusic.mp3" loop></audio>
-<audio id="correct" src="assets/correct.mp3"></audio>
-<audio id="wrong" src="assets/wrong.mp3"></audio>
+<audio id="bgMusic"
+src="assets/backgroundmusic.mp3"
+loop></audio>
+
+<audio id="correctSound"
+src="assets/correct.mp3"></audio>
+
+<audio id="wrongSound"
+src="assets/wrong.mp3"></audio>
 
 <script>
+
+/* ---------- FOODS ---------- */
 
 const foods=[
 
@@ -266,140 +355,229 @@ const foods=[
 
 ];
 
-let shuffled=foods.sort(()=>Math.random()-0.5);
+/* ---------- SHUFFLE ---------- */
 
-let index=0;
+let gameFoods=[...foods]
+.sort(()=>Math.random()-0.5);
+
+let current=0;
 let score=0;
 
-const foodImage=document.getElementById("foodImage");
-const foodName=document.getElementById("foodName");
+/* ---------- SPEECH ---------- */
 
 function speak(text,callback){
 
 if(!window.speechSynthesis){
+
 if(callback) callback();
+
 return;
 }
 
-let speech=
+speechSynthesis.cancel();
+
+const msg=
 new SpeechSynthesisUtterance(text);
 
-speech.rate=0.8;
+msg.rate=0.8;
+msg.pitch=1;
 
-speech.onend=()=>{
+msg.onend=()=>{
+
 if(callback) callback();
+
 };
 
-speechSynthesis.speak(speech);
+speechSynthesis.speak(msg);
 
 }
 
+/* ---------- SPLASH ---------- */
+
 setTimeout(()=>{
 
-document.getElementById("splash").classList.add("hidden");
-document.getElementById("game").classList.remove("hidden");
+document
+.getElementById("splashScreen")
+.classList.add("hidden");
+
+document
+.getElementById("gameScreen")
+.classList.remove("hidden");
 
 speak(
-"Hello little friend. Look at the food. Click the correct healthy or unhealthy bag.",
-()=>{
-document.getElementById("bgm").volume=.25;
-document.getElementById("bgm").play();
-showFood();
-});
+"Hello little friend. Look at the food. Click the correct basket.",
+startGame
+);
 
 },5000);
 
+/* ---------- START ---------- */
+
+function startGame(){
+
+const bg=
+document.getElementById("bgMusic");
+
+bg.volume=.25;
+
+bg.play().catch(()=>{});
+
+showFood();
+
+}
+
+/* ---------- SHOW FOOD ---------- */
+
 function showFood(){
 
-if(index>=shuffled.length){
+if(current>=gameFoods.length){
+
 finishGame();
+
 return;
 }
 
-foodImage.src=shuffled[index].img;
-foodName.innerHTML=shuffled[index].name;
+const item=
+gameFoods[current];
+
+document
+.getElementById("foodImage")
+.src=item.img;
+
+document
+.getElementById("foodName")
+.textContent=item.name;
 
 }
 
-function checkAnswer(selectedHealthy){
+/* ---------- CHECK ---------- */
 
-let item=shuffled[index];
+function checkAnswer(choice){
 
-if(selectedHealthy===item.healthy){
+const item=
+gameFoods[current];
 
-document.getElementById("score").innerHTML=++score;
+if(choice===item.healthy){
 
-document.getElementById("tick").style.display="block";
+document
+.getElementById("tick")
+.style.display="block";
 
-document.getElementById("correct").play();
+const correct=
+document.getElementById("correctSound");
 
-document.getElementById("confetti").style.display="block";
+correct.currentTime=0;
+correct.play();
+
+score++;
+
+document
+.getElementById("score")
+.textContent=score;
 
 setTimeout(()=>{
 
-document.getElementById("tick").style.display="none";
-document.getElementById("confetti").style.display="none";
+document
+.getElementById("tick")
+.style.display="none";
 
-index++;
+current++;
+
 showFood();
 
-},1500);
+},1200);
 
 }
+
 else{
 
-document.getElementById("cross").style.display="block";
+document
+.getElementById("cross")
+.style.display="block";
 
-document.getElementById("wrong").play();
+document
+.getElementById("tryAgain")
+.style.display="block";
 
-document.getElementById("tryAgain").style.display="block";
+const wrong=
+document.getElementById("wrongSound");
 
-speak("Oops. Try again.");
+wrong.currentTime=0;
+wrong.play();
+
+speak("Try Again");
 
 }
 
 }
 
-document.getElementById("healthyBag")
-.onclick=()=>checkAnswer(true);
+/* ---------- EVENTS ---------- */
 
-document.getElementById("unhealthyBag")
-.onclick=()=>checkAnswer(false);
-
-document.getElementById("tryAgain")
+document
+.getElementById("healthyBasket")
 .onclick=()=>{
 
-document.getElementById("cross").style.display="none";
-document.getElementById("tryAgain").style.display="none";
+checkAnswer(true);
 
 };
 
+document
+.getElementById("unhealthyBasket")
+.onclick=()=>{
+
+checkAnswer(false);
+
+};
+
+document
+.getElementById("tryAgain")
+.onclick=()=>{
+
+document
+.getElementById("cross")
+.style.display="none";
+
+document
+.getElementById("tryAgain")
+.style.display="none";
+
+};
+
+/* ---------- END ---------- */
+
 function finishGame(){
 
-document.getElementById("game").classList.add("hidden");
-document.getElementById("endScreen").classList.remove("hidden");
+document
+.getElementById("gameScreen")
+.classList.add("hidden");
 
-document.getElementById("finalScore").innerHTML=
+document
+.getElementById("endScreen")
+.classList.remove("hidden");
+
+document
+.getElementById("finalScore")
+.textContent=
 score+" / "+foods.length;
 
 let stars="";
 
-if(score>=10){
+if(score===11)
 stars="⭐⭐⭐⭐⭐";
-}
-else if(score>=8){
+else if(score>=9)
 stars="⭐⭐⭐⭐";
-}
-else if(score>=6){
+else if(score>=7)
 stars="⭐⭐⭐";
-}
-else{
+else
 stars="⭐⭐";
-}
 
-document.getElementById("stars").innerHTML=stars;
+document
+.getElementById("stars")
+.textContent=stars;
 
-speak("Wonderful. You completed the healthy food game.");
+speak(
+"Wonderful. You finished the healthy food adventure."
+);
 
 }
 
